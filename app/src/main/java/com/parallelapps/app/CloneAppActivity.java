@@ -32,9 +32,8 @@ public class CloneAppActivity extends AppCompatActivity {
         bind();
 
         findViewById(R.id.btnLaunch).setOnClickListener(v -> {
-            Intent i = getPackageManager().getLaunchIntentForPackage(clone.pkg);
-            if (i == null) Toast.makeText(this, "App installed nahi hai", Toast.LENGTH_SHORT).show();
-            else startActivity(i);
+            if (!ProfileHelper.send(this, ProfileHelper.A_LAUNCH, clone.pkg))
+                Toast.makeText(this, "Work profile ready nahi hai", Toast.LENGTH_SHORT).show();
         });
         findViewById(R.id.btnShortcut).setOnClickListener(v -> addShortcut());
         findViewById(R.id.btnRename).setOnClickListener(v -> {
@@ -49,7 +48,9 @@ public class CloneAppActivity extends AppCompatActivity {
         findViewById(R.id.btnDelete).setOnClickListener(v ->
                 new AlertDialog.Builder(this).setTitle("Delete clone?")
                         .setMessage(clone.name + " list se hat jayega.")
-                        .setPositiveButton("Delete", (d, w) -> { Store.remove(this, index); finish(); })
+                        .setPositiveButton("Delete", (d, w) -> {
+                            ProfileHelper.send(this, ProfileHelper.A_HIDE, clone.pkg);
+                            Store.remove(this, index); finish(); })
                         .setNegativeButton("Cancel", null).show());
     }
 
@@ -63,8 +64,9 @@ public class CloneAppActivity extends AppCompatActivity {
     }
 
     private void addShortcut() {
-        Intent launch = getPackageManager().getLaunchIntentForPackage(clone.pkg);
-        if (launch == null || !ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
+        Intent launch = new Intent(this, LaunchCloneActivity.class)
+                .setAction(Intent.ACTION_VIEW).putExtra("pkg", clone.pkg);
+        if (!ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
             Toast.makeText(this, "Shortcut supported nahi", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -77,7 +79,7 @@ public class CloneAppActivity extends AppCompatActivity {
             ShortcutInfoCompat info = new ShortcutInfoCompat.Builder(this, "clone_" + clone.pkg + "_" + index)
                     .setShortLabel(clone.name)
                     .setIcon(IconCompat.createWithBitmap(bmp))
-                    .setIntent(launch.setAction(Intent.ACTION_MAIN))
+                    .setIntent(launch)
                     .build();
             ShortcutManagerCompat.requestPinShortcut(this, info, null);
         } catch (Exception e) {

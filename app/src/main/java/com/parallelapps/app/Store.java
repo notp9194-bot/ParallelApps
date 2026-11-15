@@ -46,16 +46,21 @@ public class Store {
         sp(c).edit().putString("clones", a.toString()).apply();
     }
 
-    public static void add(Context c, String baseName, String pkg) {
+    public static boolean has(Context c, String pkg) {
+        for (Clone k : load(c)) if (k.pkg.equals(pkg)) return true;
+        return false;
+    }
+
+    public static boolean add(Context c, String baseName, String pkg) {
+        if (has(c, pkg)) return false;
         List<Clone> list = load(c);
-        int n = 0;
-        for (Clone k : list) if (k.pkg.equals(pkg)) n++;
         Clone k = new Clone();
-        k.name = baseName + " " + (n + 1);
+        k.name = baseName + " 2";
         k.pkg = pkg;
-        k.label = "Account " + (n + 1);
+        k.label = "Parallel copy (work profile)";
         list.add(k);
         save(c, list);
+        return true;
     }
 
     public static void remove(Context c, int index) {

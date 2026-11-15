@@ -18,9 +18,11 @@ public class CreatingActivity extends AppCompatActivity {
         try {
             ((ImageView) findViewById(R.id.icon)).setImageDrawable(getPackageManager().getApplicationIcon(pkg));
         } catch (Exception ignored) { }
+        if (!ProfileHelper.send(this, ProfileHelper.A_INSTALL, pkg))
+            Toast.makeText(this, "Work profile ready nahi hai", Toast.LENGTH_LONG).show();
         ProgressBar bar = findViewById(R.id.progress);
         ValueAnimator a = ValueAnimator.ofInt(0, 100);
-        a.setDuration(2200);
+        a.setDuration(3500);
         a.addUpdateListener(v -> bar.setProgress((int) v.getAnimatedValue()));
         a.addListener(new android.animation.AnimatorListenerAdapter() {
             @Override public void onAnimationEnd(android.animation.Animator an) {

@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,9 +63,37 @@ public class AddAppActivity extends AppCompatActivity {
                 Toast.makeText(this, "Pehle app select karo", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (Store.has(this, selected.pkg)) {
+                Toast.makeText(this, "Is app ka clone pehle se hai", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!ProfileHelper.hasProfile(this)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Parallel Space setup")
+                        .setMessage("Clone chalane ke liye ek baar work profile banana hoga. "
+                                + "Agle screen par Accept dabao. Clone isi profile mein alag copy ki tarah chalega.")
+                        .setPositiveButton("Setup", (d, w) -> {
+                            if (!ProfileHelper.createProfile(this, REQ_PROFILE))
+                                Toast.makeText(this, "Is phone par work profile allowed nahi hai", Toast.LENGTH_LONG).show();
+                        })
+                        .setNegativeButton("Cancel", null).show();
+                return;
+            }
             startActivity(new Intent(this, CreatingActivity.class)
                     .putExtra("name", selected.name).putExtra("pkg", selected.pkg));
             finish();
         });
+    }
+
+    private static final int REQ_PROFILE = 77;
+
+    @Override
+    protected void onActivityResult(int req, int res, Intent data) {
+        super.onActivityResult(req, res, data);
+        if (req == REQ_PROFILE) {
+            Toast.makeText(this, res == RESULT_OK
+                    ? "Profile ban gaya. Ab Select App dubara dabao."
+                    : "Profile setup cancel hua", Toast.LENGTH_LONG).show();
+        }
     }
 }
