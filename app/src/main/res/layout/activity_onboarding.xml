@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg" android:orientation="vertical" android:padding="24dp">
+    <androidx.viewpager2.widget.ViewPager2 android:id="@+id/pager"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <com.google.android.material.tabs.TabLayout android:id="@+id/dots"
+        android:layout_width="wrap_content" android:layout_height="24dp"
+        android:layout_gravity="center_horizontal" android:background="@android:color/transparent"
+        app:tabBackground="@drawable/tab_dot" app:tabIndicatorHeight="0dp"
+        app:tabGravity="center" app:tabMode="fixed" app:tabPaddingStart="6dp" app:tabPaddingEnd="6dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnNext"
+        android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="16dp"
+        android:text="Next" android:textAllCaps="false" android:textSize="16sp" app:cornerRadius="16dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+    <TextView android:id="@+id/btnSkip" android:layout_width="match_parent" android:layout_height="48dp"
+        android:gravity="center" android:text="Skip" android:textColor="@color/sub" />
+</LinearLayout>

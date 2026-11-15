@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="6dp" android:gravity="center_horizontal" android:orientation="vertical" android:padding="8dp"
+    android:id="@+id/root">
+    <FrameLayout android:layout_width="64dp" android:layout_height="64dp">
+        <ImageView android:id="@+id/icon" android:layout_width="56dp" android:layout_height="56dp"
+            android:layout_gravity="center" android:padding="2dp" />
+        <TextView android:id="@+id/badge" android:layout_width="20dp" android:layout_height="20dp"
+            android:layout_gravity="top|end" android:background="@drawable/bg_btn" android:gravity="center"
+            android:textColor="#FFFFFF" android:textSize="11sp" android:visibility="gone" />
+    </FrameLayout>
+    <TextView android:id="@+id/label" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="6dp" android:ellipsize="end" android:maxLines="1"
+        android:textColor="@color/text" android:textSize="12sp" />
+</LinearLayout>

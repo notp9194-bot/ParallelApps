@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg" android:orientation="vertical" android:padding="16dp">
+    <TextView android:layout_width="wrap_content" android:layout_height="48dp" android:gravity="center_vertical"
+        android:text="Settings" android:textColor="@color/text" android:textSize="22sp" android:textStyle="bold" />
+    <include android:id="@+id/rowManage" layout="@layout/item_setting_row" />
+    <include android:id="@+id/rowTheme" layout="@layout/item_setting_row" />
+    <include android:id="@+id/rowNotif" layout="@layout/item_setting_row" />
+    <include android:id="@+id/rowSecurity" layout="@layout/item_setting_row" />
+    <include android:id="@+id/rowAbout" layout="@layout/item_setting_row" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnRate"
+        android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="16dp"
+        android:text="★  Rate Us" android:textAllCaps="false" app:cornerRadius="16dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+</LinearLayout>

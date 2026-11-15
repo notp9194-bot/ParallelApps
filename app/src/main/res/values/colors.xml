@@ -1,0 +1,11 @@
+<resources>
+    <color name="purple">#6C4DF6</color>
+    <color name="purple_dark">#4A2FD0</color>
+    <color name="bg">#F7F5FF</color>
+    <color name="card">#FFFFFF</color>
+    <color name="text">#1F1B3A</color>
+    <color name="sub">#7B7A92</color>
+    <color name="tile">#EFEAFF</color>
+    <color name="wa_green">#075E54</color>
+    <color name="wa_light">#25D366</color>
+</resources>

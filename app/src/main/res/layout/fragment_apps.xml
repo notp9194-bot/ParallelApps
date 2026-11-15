@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg" android:orientation="vertical" android:padding="16dp">
+    <TextView android:layout_width="wrap_content" android:layout_height="48dp" android:gravity="center_vertical"
+        android:text="App Management" android:textColor="@color/text" android:textSize="22sp" android:textStyle="bold" />
+    <TextView android:id="@+id/empty" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="40dp" android:gravity="center" android:text="Abhi koi parallel app nahi hai."
+        android:textColor="@color/sub" android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/list" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/btnAnother"
+        android:layout_width="match_parent" android:layout_height="56dp" android:text="+  Create Another"
+        android:textAllCaps="false" app:cornerRadius="16dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+</LinearLayout>
