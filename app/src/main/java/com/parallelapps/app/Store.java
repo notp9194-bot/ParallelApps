@@ -10,6 +10,7 @@ import java.util.List;
 public class Store {
     public static class Clone {
         public String name, pkg, label;
+        public int userId;
     }
 
     private static SharedPreferences sp(Context c) {
@@ -26,6 +27,7 @@ public class Store {
                 k.name = o.getString("name");
                 k.pkg = o.getString("pkg");
                 k.label = o.optString("label", "");
+                k.userId = o.optInt("userId", 0);
                 list.add(k);
             }
         } catch (Exception ignored) { }
@@ -40,27 +42,34 @@ public class Store {
                 o.put("name", k.name);
                 o.put("pkg", k.pkg);
                 o.put("label", k.label);
+                o.put("userId", k.userId);
                 a.put(o);
             }
         } catch (Exception ignored) { }
         sp(c).edit().putString("clones", a.toString()).apply();
     }
 
-    public static boolean has(Context c, String pkg) {
-        for (Clone k : load(c)) if (k.pkg.equals(pkg)) return true;
-        return false;
+    /** Smallest virtual userId not yet used for this package. Every userId = separate data/account. */
+    public static int nextUserId(Context c, String pkg) {
+        List<Clone> list = load(c);
+        int id = 0;
+        while (true) {
+            boolean used = false;
+            for (Clone k : list) if (k.pkg.equals(pkg) && k.userId == id) { used = true; break; }
+            if (!used) return id;
+            id++;
+        }
     }
 
-    public static boolean add(Context c, String baseName, String pkg) {
-        if (has(c, pkg)) return false;
+    public static void add(Context c, String baseName, String pkg, int userId) {
         List<Clone> list = load(c);
         Clone k = new Clone();
-        k.name = baseName + " 2";
+        k.name = baseName + " " + (userId + 1);
         k.pkg = pkg;
-        k.label = "Parallel copy (work profile)";
+        k.userId = userId;
+        k.label = "Account " + (userId + 1);
         list.add(k);
         save(c, list);
-        return true;
     }
 
     public static void remove(Context c, int index) {
@@ -79,6 +88,6 @@ public class Store {
     public static void setOnboarded(Context c) { sp(c).edit().putBoolean("onboarded", true).apply(); }
     public static boolean appLock(Context c) { return sp(c).getBoolean("applock", false); }
     public static void setAppLock(Context c, boolean v) { sp(c).edit().putBoolean("applock", v).apply(); }
-    public static int theme(Context c) { return sp(c).getInt("theme", 2); } // 0 light 1 dark 2 system
+    public static int theme(Context c) { return sp(c).getInt("theme", 2); }
     public static void setTheme(Context c, int v) { sp(c).edit().putInt("theme", v).apply(); }
 }

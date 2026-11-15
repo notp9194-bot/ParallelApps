@@ -32,8 +32,10 @@ public class CloneAppActivity extends AppCompatActivity {
         bind();
 
         findViewById(R.id.btnLaunch).setOnClickListener(v -> {
-            if (!ProfileHelper.send(this, ProfileHelper.A_LAUNCH, clone.pkg))
-                Toast.makeText(this, "Work profile link nahi mila. Work apps (briefcase) mein \"Parallel Apps\" icon ek baar kholo, phir try karo.", Toast.LENGTH_SHORT).show();
+            boolean ok = false;
+            try { ok = top.niunaijun.blackbox.BlackBoxCore.get().launchApk(clone.pkg, clone.userId); }
+            catch (Throwable t) { Toast.makeText(this, "Error: " + t, Toast.LENGTH_LONG).show(); }
+            if (!ok) Toast.makeText(this, "Clone open nahi hua", Toast.LENGTH_SHORT).show();
         });
         findViewById(R.id.btnShortcut).setOnClickListener(v -> addShortcut());
         findViewById(R.id.btnRename).setOnClickListener(v -> {
@@ -49,7 +51,9 @@ public class CloneAppActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this).setTitle("Delete clone?")
                         .setMessage(clone.name + " list se hat jayega.")
                         .setPositiveButton("Delete", (d, w) -> {
-                            ProfileHelper.send(this, ProfileHelper.A_HIDE, clone.pkg);
+                            try {
+                                top.niunaijun.blackbox.BlackBoxCore.get().uninstallPackageAsUser(clone.pkg, clone.userId);
+                            } catch (Throwable ignored) { }
                             Store.remove(this, index); finish(); })
                         .setNegativeButton("Cancel", null).show());
     }
@@ -65,7 +69,7 @@ public class CloneAppActivity extends AppCompatActivity {
 
     private void addShortcut() {
         Intent launch = new Intent(this, LaunchCloneActivity.class)
-                .setAction(Intent.ACTION_VIEW).putExtra("pkg", clone.pkg);
+                .setAction(Intent.ACTION_VIEW).putExtra("pkg", clone.pkg).putExtra("userId", clone.userId);
         if (!ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
             Toast.makeText(this, "Shortcut supported nahi", Toast.LENGTH_SHORT).show();
             return;

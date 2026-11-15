@@ -1,7 +1,21 @@
-pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+pluginManagement {
+    repositories {
+        maven { url "https://www.jitpack.io" }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories { google(); mavenCentral() }
+    repositories {
+        maven { url "https://www.jitpack.io" }
+        google()
+        mavenCentral()
+    }
 }
 rootProject.name = "ParallelApps"
 include ':app'
+include ':black-reflection'
+include ':compiler'
+include ':Bcore'

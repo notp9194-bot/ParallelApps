@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
         List<Store.Clone> clones = Store.load(requireContext());
         List<TileAdapter.Item> items = new ArrayList<>();
-        for (Store.Clone k : clones) items.add(new TileAdapter.Item(k.name, k.pkg, null, false));
+        for (Store.Clone k : clones) items.add(new TileAdapter.Item(k.name, k.pkg, k.userId > 0 ? String.valueOf(k.userId + 1) : null, false));
         items.add(new TileAdapter.Item("Add App", null, null, true));
         grid.setAdapter(new TileAdapter(items, (item, pos) -> {
             if (item.isAdd) startActivity(new Intent(requireContext(), AddAppActivity.class));

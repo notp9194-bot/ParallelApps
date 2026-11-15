@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
@@ -8,12 +16,16 @@
     </queries>
 
     <application
-        android:allowBackup="true"
+        android:name=".ParallelApp"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
-        android:label="Parallel Apps"
         android:roundIcon="@drawable/ic_launcher"
+        android:label="Parallel Apps"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Parallel">
+        android:theme="@style/Theme.Parallel"
+        tools:replace="android:allowBackup"
+        tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".SplashActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,64 +37,10 @@
         <activity android:name=".AddAppActivity" />
         <activity android:name=".CreatingActivity" />
         <activity android:name=".CloneAppActivity" />
-        <receiver
-            android:name=".AdminReceiver"
-            android:exported="true"
-            android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
-            <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-                <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name=".ProfileBootReceiver" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_UNLOCKED" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name=".ProvisioningModeActivity"
-            android:exported="true"
-            android:permission="android.permission.BIND_DEVICE_ADMIN"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.app.action.GET_PROVISIONING_MODE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".PolicyComplianceActivity"
-            android:exported="true"
-            android:permission="android.permission.BIND_DEVICE_ADMIN"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <!-- disabled by default; enabled only inside the work profile -->
-        <activity
-            android:name=".ProfileActionActivity"
-            android:enabled="false"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
-                <action android:name="com.parallelapps.app.action.INSTALL" />
-                <action android:name="com.parallelapps.app.action.LAUNCH" />
-                <action android:name="com.parallelapps.app.action.HIDE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <activity
             android:name=".LaunchCloneActivity"
-            android:exported="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 </manifest>

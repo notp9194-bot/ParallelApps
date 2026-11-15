@@ -6,7 +6,7 @@
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginTop="28dp" android:text="Creating Parallel App..."
         android:textColor="@color/text" android:textSize="22sp" android:textStyle="bold" />
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginTop="10dp" android:gravity="center"
         android:text="Please wait, it will only\ntake a moment." android:textColor="@color/sub" />
     <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"
