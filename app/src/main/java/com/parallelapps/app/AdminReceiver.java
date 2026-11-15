@@ -28,7 +28,7 @@ public class AdminReceiver extends DeviceAdminReceiver {
         f.addAction(ProfileHelper.A_LAUNCH);
         f.addAction(ProfileHelper.A_HIDE);
         f.addCategory(Intent.CATEGORY_DEFAULT);
-        dpm.addCrossProfileIntentFilter(admin, f, DevicePolicyManager.FLAG_PARENT_CAN_ACCESS_CHILD);
+        dpm.addCrossProfileIntentFilter(admin, f, DevicePolicyManager.FLAG_PARENT_CAN_ACCESS_MANAGED);
 
         dpm.setProfileEnabled(admin);
     }
