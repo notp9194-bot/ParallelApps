@@ -6,6 +6,8 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.UserHandle;
 import android.os.UserManager;
 import java.util.List;
@@ -51,5 +53,35 @@ public class ProfileHelper {
         } catch (ActivityNotFoundException e) {
             return false;
         }
+    }
+
+    public static boolean inProfile(Context c) {
+        DevicePolicyManager dpm = (DevicePolicyManager) c.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        return dpm.isProfileOwnerApp(c.getPackageName());
+    }
+
+    /** Idempotent. Runs inside the work profile: enables the action activity and links personal -> profile. */
+    public static boolean setupInsideProfile(Context ctx) {
+        DevicePolicyManager dpm = (DevicePolicyManager) ctx.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        if (!dpm.isProfileOwnerApp(ctx.getPackageName())) return false;
+        ComponentName admin = admin(ctx);
+        try { dpm.setProfileName(admin, "Parallel Space"); } catch (Exception ignored) { }
+        try {
+            ctx.getPackageManager().setComponentEnabledSetting(new ComponentName(ctx, ProfileActionActivity.class),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        } catch (Exception ignored) { }
+        try {
+            dpm.clearCrossProfileIntentFilters(admin);
+            IntentFilter f = new IntentFilter();
+            f.addAction(A_INSTALL);
+            f.addAction(A_LAUNCH);
+            f.addAction(A_HIDE);
+            f.addCategory(Intent.CATEGORY_DEFAULT);
+            dpm.addCrossProfileIntentFilter(admin, f, DevicePolicyManager.FLAG_PARENT_CAN_ACCESS_MANAGED);
+        } catch (Exception e) {
+            return false;
+        }
+        try { dpm.setProfileEnabled(admin); } catch (Exception ignored) { }
+        return true;
     }
 }

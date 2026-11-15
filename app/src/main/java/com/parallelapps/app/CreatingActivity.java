@@ -19,7 +19,7 @@ public class CreatingActivity extends AppCompatActivity {
             ((ImageView) findViewById(R.id.icon)).setImageDrawable(getPackageManager().getApplicationIcon(pkg));
         } catch (Exception ignored) { }
         if (!ProfileHelper.send(this, ProfileHelper.A_INSTALL, pkg))
-            Toast.makeText(this, "Work profile ready nahi hai", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Work profile link nahi mila. Work apps (briefcase) mein \"Parallel Apps\" icon ek baar kholo, phir try karo.", Toast.LENGTH_LONG).show();
         ProgressBar bar = findViewById(R.id.progress);
         ValueAnimator a = ValueAnimator.ofInt(0, 100);
         a.setDuration(3500);

@@ -11,7 +11,7 @@ public class LaunchCloneActivity extends Activity {
         super.onCreate(b);
         String pkg = getIntent().getStringExtra("pkg");
         if (pkg == null || !ProfileHelper.send(this, ProfileHelper.A_LAUNCH, pkg))
-            Toast.makeText(this, "Work profile ready nahi hai", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Work profile link nahi mila. Work apps (briefcase) mein \"Parallel Apps\" icon ek baar kholo, phir try karo.", Toast.LENGTH_LONG).show();
         finish();
     }
 }

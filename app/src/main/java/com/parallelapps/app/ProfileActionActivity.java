@@ -18,8 +18,10 @@ public class ProfileActionActivity extends Activity {
         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         ComponentName admin = ProfileHelper.admin(this);
         try {
-            if (pkg == null || !dpm.isProfileOwnerApp(getPackageName())) {
-                Toast.makeText(this, "Work profile ready nahi hai", Toast.LENGTH_SHORT).show();
+            if (pkg == null) {
+                Toast.makeText(this, "Package missing", Toast.LENGTH_SHORT).show();
+            } else if (!dpm.isProfileOwnerApp(getPackageName())) {
+                Toast.makeText(this, "Ye copy profile owner nahi hai", Toast.LENGTH_LONG).show();
             } else if (ProfileHelper.A_INSTALL.equals(action)) {
                 boolean ok = dpm.installExistingPackage(admin, pkg);
                 dpm.setApplicationHidden(admin, pkg, false);
